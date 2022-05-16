@@ -1,4 +1,3 @@
-import logging
 import os
 import pickle
 import random
@@ -13,12 +12,9 @@ from Selenium.driversSet import Selenium
 from time import sleep
 
 class Elements(Selenium):
-    def __init__(self, teardown=False, headless=False):
-        self.log = logging.info
-        self.headless = headless
-        self.teardown = teardown
+    def __init__(self, **kwargs):
         self.pT = PrettyTable()
-        super().__init__(teardown=self.teardown, headless=self.headless)
+        super().__init__(**kwargs)
 
     def getByType(self, locaTy):
         locaTy = locaTy.lower()
@@ -176,6 +172,12 @@ class Elements(Selenium):
         self.log("Text found..")
         return element
 
+    def urlChange(self, url, timeout=5):
+        try:
+            WebDriverWait(self, timeout).until(EC.url_changes(url))
+        except Exception as e:
+            print(f"Url did not change even after waiting for {timeout} seconds. {str(e)}")
+
     def sleep(self, t1=0.3, t2=0.8):
         sleep(random.uniform(t1, t2))
         self.log(f"Sleeping for {t1 + t2} seconds")
@@ -321,24 +323,3 @@ class Elements(Selenium):
         self.scroll_down()
         self.maximize()
         self.ele("body", locaTy="tag", keys=Keys.HOME)
-
-    @property
-    def func(self):
-        return self.ele("question", locaTy="class", getText=True)
-
-    def eleChange(self, ele, oldL, wait):
-        print(oldL)
-        newL = []
-        newEle = ele
-        newL.append(newEle)
-        print(newL)
-        while newL[0] == oldL[0]:
-            newL.pop(0)
-            newEle = ele
-            newL.append(newEle)
-            print(newL)
-            sleep(wait)
-            self.log(f"Waiting for {wait} seconds and then checking for ele change")
-        self.log(f"Ele changed!")
-        newL.pop(0)
-        oldL.pop(0)

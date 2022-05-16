@@ -1,6 +1,9 @@
 import logging
-from selenium import webdriver
+import pickle
 
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 logging.basicConfig(handlers=[logging.FileHandler(filename="logs",
                                                   encoding='utf-8', mode='a')],
                     format="%(asctime)s %(name)s:%(levelname)s: %(message)s",
@@ -25,7 +28,9 @@ class Selenium(webdriver.Chrome):
         self.options.add_argument("--disable-gpu")
         self.options.add_argument('--no-sandbox')
         self.options.add_argument('--disable-dev-shm-usage')
-        super().__init__(options=self.options)
+        self.options.add_extension("Website/cjpalhdlnbpafiamejdnhcphjbkeiagm-1.42.4-Crx4Chrome.com.crx")
+        super().__init__(options=self.options, service=Service(ChromeDriverManager().install()))
+
 
     def __exit__(self, exc_type, exc_val, exc_tb):
             if self.teardown:

@@ -1,4 +1,3 @@
-import logging
 from prettytable import PrettyTable
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
@@ -12,7 +11,7 @@ from Selenium.elements import Elements
 
 
 class McGraw(Elements):
-    def __init__(self, teardown=False, headless=False):
+    def __init__(self, **kwargs):
         self.questionL = None
         self.fixedQuestion = None
         self.connectTab = None
@@ -22,17 +21,15 @@ class McGraw(Elements):
         self.key_word_2 = None
         self.key_word_1 = None
         self.googleTab = None
-        self.log = logging.info
-        self.headless = headless
-        self.teardown = teardown
         self.question = None
-        super().__init__(teardown=self.teardown, headless=self.headless)
+        super().__init__(**kwargs)
 
     def quizletLogin(self, email, password, timeout=2):
         self.get("https://quizlet.com/login")
         try:
-            self.ele(x.quizletLogin, ECType="click", keys=f"{email}" + Keys.TAB + f"{password}" + Keys.ENTER,
-                     timeout=timeout)
+            self.ele(x.quizletEmail, ECType="click", keys=f"{email}", timeout=timeout)
+            self.ele(x.quizletPass, ECType="click", keys=f"{password}" + Keys.ENTER, timeout=timeout)
+            self.urlChange("https://quizlet.com/login")
         except TimeoutException:
             print("Already logged in!")
 
@@ -56,18 +53,21 @@ class McGraw(Elements):
 
     def startQuestions(self, timeout):
         self.switchDC()
-        # try:
-        #     self.ele(x.startQues, ECType="click", timeout=timeout).click()
-        #     print("Starting questions...")
-        # except TimeoutException:
-        #     pass
-        # try:
-        #     self.ele(x.startQues2, ECType="click", timeout=timeout).click()
-        #     print("Starting questions...")
-        # except TimeoutException:
-        #     pass
-        self.ele(x.continueQues, ECType="click", timeout=timeout).click()
-        print("Continuing questions...")
+        try:
+            self.ele(x.startQues, ECType="click", timeout=timeout).click()
+            print("Starting questions...")
+        except TimeoutException:
+            pass
+        try:
+            self.ele(x.startQues2, ECType="click", timeout=timeout).click()
+            print("Starting questions...")
+        except TimeoutException:
+            pass
+        try:
+            self.ele(x.continueQues, ECType="click", timeout=timeout).click()
+            print("Continuing questions...")
+        except:
+            pass
 
     def closePopup(self, timeout):
         try:
@@ -124,6 +124,10 @@ class McGraw(Elements):
 
     def googleResultClick(self, searchNum):
         self.ele(f"(//div[@id='search']//following::h3)[{searchNum}]", ECType="click", timeout=5).click()
+        try:
+            self.ele(x.quizletPopup, ECType='click').click()
+        except:
+            pass
 
     def getAnswer(self):
         self.printKeywords()
@@ -215,7 +219,7 @@ class McGraw(Elements):
             if 0 < len(answers) < ansReq:
                 self.close()
                 self.switch_to.window(self.connectTab)
-                print("These are all the answers I could find...")
+                input("These are all the answers I could find, enter 1 once on next question..")
                 break
             else:
                 self.switch_to.window(self.connectTab)
@@ -226,8 +230,6 @@ class McGraw(Elements):
                     self.close()
                     self.switch_to.window(self.connectTab)
                     self.switchDC()
-
-                    """
                     newQuestionL = []
                     newQuestion = self.ele("question", locaTy="class", getText=True)
                     newQuestionL.append(newQuestion)
@@ -239,10 +241,6 @@ class McGraw(Elements):
                         print("Same question, click on next...")
                     print("Found new question!")
                     self.questionL.pop(0)
-                    """
-
-                    self.eleChange(self.questionL, wait=1.5)
-
                     break
                 elif more == '2':
                     ansReq += 3
@@ -286,7 +284,7 @@ class McGraw(Elements):
 
     def nextQuestion(self):
         while True:
-            nextQues = int(input("Complete the question and hit next. Once on the next question enter 1: "))
+            nextQues = int(input("If on new question, enter 1: "))
             if nextQues == 1:
                 print("Working on this question...")
                 break
