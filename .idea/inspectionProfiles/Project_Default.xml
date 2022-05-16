@@ -1,0 +1,55 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="94" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="17">
+            <item index="0" class="java.lang.String" itemvalue="altgraph" />
+            <item index="1" class="java.lang.String" itemvalue="pyinstaller" />
+            <item index="2" class="java.lang.String" itemvalue="greenlet" />
+            <item index="3" class="java.lang.String" itemvalue="zope.interface" />
+            <item index="4" class="java.lang.String" itemvalue="bottle" />
+            <item index="5" class="java.lang.String" itemvalue="Eel" />
+            <item index="6" class="java.lang.String" itemvalue="pyinstaller-hooks-contrib" />
+            <item index="7" class="java.lang.String" itemvalue="gevent-websocket" />
+            <item index="8" class="java.lang.String" itemvalue="trio" />
+            <item index="9" class="java.lang.String" itemvalue="selenium" />
+            <item index="10" class="java.lang.String" itemvalue="future" />
+            <item index="11" class="java.lang.String" itemvalue="macholib" />
+            <item index="12" class="java.lang.String" itemvalue="whichcraft" />
+            <item index="13" class="java.lang.String" itemvalue="gevent" />
+            <item index="14" class="java.lang.String" itemvalue="zope.event" />
+            <item index="15" class="java.lang.String" itemvalue="bottle-websocket" />
+            <item index="16" class="java.lang.String" itemvalue="telebot" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+          <option value="N812" />
+          <option value="N806" />
+          <option value="N803" />
+          <option value="N813" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="Ridge.selenium.webdriver" />
+          <option value="Selenium.SeleniumFuncs.name.name" />
+          <option value="types.ModuleType.*" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
